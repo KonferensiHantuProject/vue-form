@@ -1,10 +1,13 @@
 <template>
-  <form>
+  <form @submit.prevent="handleSubmit">
     <label>Email</label>
     <input type="email" required v-model="email">
 
     <label>Password</label>
     <input type="password" required v-model="password">
+
+    <!-- Error Password -->
+    <div v-if="passwordError" class="error">{{ passwordError }}</div>
 
     <label>Role</label>
     <select v-model="role">
@@ -12,9 +15,19 @@
         <option value="designer">Web Designer</option>
     </select>
 
+    <label>Skills</label>
+    <input type="text" v-model="tempSkill" @keyup.alt="addSkill">
+    <div v-for="skill in skills" :key="skill" class="pill">
+        <span @click="deleteSkill(skill)">{{ skill }}</span>
+    </div>
+
     <div class="terms">
         <input type="checkbox" v-model="terms" required>
         <label>Terms and Condition</label>
+    </div>
+
+    <div class="submit">
+        <button>Buat Akun</button>
     </div>
 
   </form>
@@ -33,7 +46,36 @@ export default {
             email: '',
             password: '',
             role: '',
-            terms: false
+            terms: false,
+            tempSkill: '',
+            skills: [],
+            passwordError: ''
+        }
+    },
+    methods:{
+        addSkill(e){
+            if(e.key === ',' && this.tempSkill)
+            {
+                // Check if skill is already include
+                if(!this.skills.includes(this.tempSkill))
+                {
+                    // Add wahtever in the input field to the array
+                    this.skills.push(this.tempSkill)
+                }
+
+                // Refresh Temp skill
+                this.tempSkill = ''
+            }
+        },
+        deleteSkill(skill){
+            this.skills = this.skills.filter((item) => {
+                // Removing chosen skill
+                return skill !== item
+            })
+        },
+        handleSubmit() {
+            // Validating password
+            this.passwordError = this.password.length > 5 ? '' : 'Password Harus Lebih dari 5 Karakter'
         }
     }
 }
@@ -72,5 +114,34 @@ export default {
         margin: 0 10px 0 0;
         position: relative;
         top: 2px;
+    }
+    .pill {
+        display: inline-block;
+        margin: 20px 10px 0 0;
+        padding: 6px 12px;
+        background: #eee;
+        border-radius: 20px;
+        font-size: 12px;
+        letter-spacing: 1px;
+        font-weight: bold;
+        color: #777;
+        cursor: pointer;
+    }
+    button {
+        background: #0b6dff;
+        border: 0;
+        padding: 10px 20px;
+        margin-top: 20px;
+        color: white;
+        border-radius: 20px;
+    }
+    .submit {
+        text-align: center;
+    }
+    .error{
+        color: red;
+        margin-top: 10px;
+        font-size: 0.8em;
+        font-weight: bold;
     }
 </style>
