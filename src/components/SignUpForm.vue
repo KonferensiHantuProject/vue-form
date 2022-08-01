@@ -76,6 +76,15 @@ export default {
         handleSubmit() {
             // Validating password
             this.passwordError = this.password.length > 5 ? '' : 'Password Harus Lebih dari 5 Karakter'
+
+            // Jika password aman tampilkan semua
+            if(!this.passwordError){
+                console.log('email: ', this.email)
+                console.log('password: ', this.password)
+                console.log('role: ', this.role)
+                console.log('skills: ', this.skills)
+                console.log('terms: ', this.terms)
+            }
         }
     }
 }
