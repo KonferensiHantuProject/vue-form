@@ -1,4 +1,4 @@
-# simple-web-form
+# Simple Web Form
 
 ## Project setup
 ```
