@@ -1,6 +1,6 @@
 # Simple Web Form
 
-## Project setup
+## Project Setup
 ```
 npm install
 ```
